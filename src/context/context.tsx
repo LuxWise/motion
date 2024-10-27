@@ -25,10 +25,10 @@ interface ContextProps {
 const DefaultContext: DataContextType = {
   data: [],
   getData: async () => {},
-  getDataById: async (id?: number) => undefined,
-  postData: async (data?: DataRow) => {},
+  getDataById: async () => undefined,
+  postData: async () => {},
   refreshData: async () => {},
-  deleteData: async (id?: number) => {},
+  deleteData: async () => {},
 };
 
 export const DataContext = createContext<DataContextType>(DefaultContext);

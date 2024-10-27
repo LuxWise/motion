@@ -1,4 +1,4 @@
-const SERVER_IP = "http://127.0.0.1:8000";
+const SERVER_IP = "https://apimotion.onrender.com";
 
 export const ENV = {
   API_URL: SERVER_IP,
