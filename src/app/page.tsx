@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Wave } from "@/Layout/wave";
 
-export default function Home() {
+const Home = () => {
   const router = useRouter();
 
   const navigateToTable = () => {
@@ -77,4 +77,6 @@ export default function Home() {
       </motion.main>
     </Wave>
   );
-}
+};
+
+export default Home;

@@ -4,11 +4,13 @@ import DataTable, { TableColumn } from "react-data-table-component";
 import editIcon from "@/assets/Icon_editar1.svg";
 import deleteIcon from "@/assets/Icon_eliminar1.svg";
 import "./table.css";
+import { useDataContext } from "@/hooks";
 
 interface DataRow {
   id: number;
-  name: string;
-  age: number;
+  marca: string;
+  sucursal: string;
+  aspirante: string;
 }
 
 interface TableProps {
@@ -16,27 +18,29 @@ interface TableProps {
 }
 
 export const Table = ({ usedata }: TableProps) => {
-  const [data, setData] = useState<DataRow[]>(usedata);
+  const [data, setData] = useState<DataRow[]>([]);
   const [pending, setPending] = useState(true);
   const [deletingRow, setDeletingRow] = useState<number | null>(null);
 
+  const { deleteData } = useDataContext();
+
   useEffect(() => {
-    const loadData = setTimeout(() => {
-      setPending(false);
-    }, 1000);
-    return () => clearTimeout(loadData);
-  }, []);
+    setData(usedata);
+    setPending(usedata.length === 0);
+  }, [usedata]);
 
   const handleEdit = (id: number) => {
     console.log("Edit item:", id);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     setDeletingRow(id);
     setTimeout(() => {
       setData(prevData => prevData.filter(row => row.id !== id));
       setDeletingRow(null);
     }, 500);
+    deleteData(id);
+    console.log("Delete item:", id);
   };
 
   const renderCell = (content: React.ReactNode, rowId: number) => (
@@ -52,15 +56,15 @@ export const Table = ({ usedata }: TableProps) => {
   const columns: TableColumn<DataRow>[] = [
     {
       name: "Marca",
-      selector: row => row.name,
+      selector: row => row.marca,
       sortable: true,
-      cell: row => renderCell(row.name, row.id),
+      cell: row => renderCell(row.marca, row.id),
     },
     {
       name: "Sucursal",
-      selector: row => row.age,
+      selector: row => row.sucursal,
       sortable: true,
-      cell: row => renderCell(row.age, row.id),
+      cell: row => renderCell(row.sucursal, row.id),
     },
     {
       name: "Aspirantes",
@@ -68,21 +72,23 @@ export const Table = ({ usedata }: TableProps) => {
         <div
           className={`${
             deletingRow === row.id ? "row-deleting" : ""
-          } flex w-full gap-3 justify-center items-center pl-5 text-lg text-[#c5c5c5]`}
+          } flex w-full justify-between items-center pl-5 text-lg text-[#c5c5c5]`}
         >
-          <p>{row.age}</p>
-          <Image
-            src={editIcon}
-            alt="Edit"
-            onClick={() => handleEdit(row.id)}
-            className="cursor-pointer w-5 h-5"
-          />
-          <Image
-            src={deleteIcon}
-            alt="Delete"
-            onClick={() => handleDelete(row.id)}
-            className="cursor-pointer w-5 h-5"
-          />
+          <p>{row.aspirante}</p>
+          <div className="flex gap-3">
+            <Image
+              src={editIcon}
+              alt="Edit"
+              onClick={() => handleEdit(row.id)}
+              className="cursor-pointer w-5 h-5"
+            />
+            <Image
+              src={deleteIcon}
+              alt="Delete"
+              onClick={() => handleDelete(row.id)}
+              className="cursor-pointer w-5 h-5"
+            />
+          </div>
         </div>
       ),
       ignoreRowClick: true,
@@ -108,7 +114,7 @@ export const Table = ({ usedata }: TableProps) => {
   };
 
   return (
-    <div className="w-5/6">
+    <div className="w-full pr-20">
       <DataTable
         customStyles={customStyles}
         progressPending={pending}
