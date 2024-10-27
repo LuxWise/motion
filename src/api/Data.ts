@@ -24,7 +24,7 @@ export class Data {
     }
   }
 
-  async postData(data: any) {
+  async postData(data: { marca: string; sucursal: string; aspirante: string }) {
     try {
       const url = `${ENV.API_URL}/${ENV.ENDPOINTS.DATA}`;
       const response = await axios.post(url, data);

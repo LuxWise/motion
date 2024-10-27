@@ -4,7 +4,6 @@ import { Data } from "@/api";
 import { createContext, useState, useCallback } from "react";
 
 interface DataRow {
-  id: number;
   marca: string;
   sucursal: string;
   aspirante: string;
@@ -13,8 +12,8 @@ interface DataRow {
 interface DataContextType {
   data: DataRow[];
   getData: () => Promise<void>;
-  getDataById: (id: number) => Promise<any | undefined>;
-  postData: (data: any) => Promise<void>;
+  getDataById: (id: number) => Promise<void | undefined>;
+  postData: (data: DataRow) => Promise<void>;
   refreshData: () => Promise<void>;
   deleteData: (id: number) => Promise<void | undefined>;
 }
@@ -26,10 +25,10 @@ interface ContextProps {
 const DefaultContext: DataContextType = {
   data: [],
   getData: async () => {},
-  getDataById: async (id: number) => undefined,
-  postData: async (data: DataRow) => {},
+  getDataById: async (id?: number) => undefined,
+  postData: async (data?: DataRow) => {},
   refreshData: async () => {},
-  deleteData: async (id: number) => {},
+  deleteData: async (id?: number) => {},
 };
 
 export const DataContext = createContext<DataContextType>(DefaultContext);
