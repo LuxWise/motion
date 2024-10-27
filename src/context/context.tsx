@@ -4,6 +4,7 @@ import { Data } from "@/api";
 import { createContext, useState, useCallback } from "react";
 
 interface DataRow {
+  id: number;
   marca: string;
   sucursal: string;
   aspirante: string;
