@@ -1,4 +1,5 @@
-const SERVER_IP = "https://apimotion.onrender.com";
+const SERVER_IP =
+  "https://apimotion-egfxawatbagugygz.brazilsouth-01.azurewebsites.net";
 
 export const ENV = {
   API_URL: SERVER_IP,
