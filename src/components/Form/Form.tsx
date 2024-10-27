@@ -1,4 +1,3 @@
-// imports
 import { motion } from "framer-motion";
 import { InputIcon } from "./InputIcon";
 import { CreateButtons } from "./CreateButtons";
