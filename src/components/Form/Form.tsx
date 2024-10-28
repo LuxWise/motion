@@ -12,7 +12,6 @@ import userIcon from "@/assets/Icon_persona.svg";
 import userIconActive from "@/assets/Icon_persona1.svg";
 import { useDataContext } from "@/hooks";
 import { ModifyButtons } from "./ModifyButtons";
-import { s } from "framer-motion/client";
 
 const containerVariants = {
   hidden: { x: "-100%", opacity: 0 },
