@@ -19,10 +19,17 @@ interface DataPost {
 interface DataContextType {
   data: DataRowId[];
   getData: () => Promise<void>;
-  getDataById: (id: number) => Promise<void | undefined>;
+  getDataById: (id: number) => Promise<DataRowId | undefined>;
   postData: (data: DataPost) => Promise<void>;
   refreshData: () => Promise<void>;
+  updateData: (id: number, data: DataPost) => Promise<void>;
   deleteData: (id: number) => Promise<void | undefined>;
+  createActive: boolean;
+  setCreateActive?: (active: boolean) => void;
+  editActive: boolean;
+  setEditActive?: (active: boolean) => void;
+  updateId: number | null;
+  setUpdateId?: (id: number) => void;
 }
 
 interface ContextProps {
@@ -34,14 +41,25 @@ const DefaultContext: DataContextType = {
   getData: async () => {},
   getDataById: async () => undefined,
   postData: async () => {},
+  updateData: async () => {},
   refreshData: async () => {},
   deleteData: async () => {},
+  createActive: false,
+  setCreateActive: () => {},
+  editActive: false,
+  setEditActive: () => {},
+  updateId: null,
+  setUpdateId: () => {},
 };
 
 export const DataContext = createContext<DataContextType>(DefaultContext);
 
 export const DataProvider = ({ children }: ContextProps) => {
   const [data, setData] = useState<DataRowId[]>([]);
+  const [editActive, setEditActive] = useState(false);
+  const [createActive, setCreateActive] = useState(false);
+  const [updateId, setUpdateId] = useState<number | null>(null);
+
   const api = new Data();
 
   const getData = useCallback(async () => {
@@ -59,6 +77,11 @@ export const DataProvider = ({ children }: ContextProps) => {
     await refreshData();
   };
 
+  const updateData = async (id: number, data: DataPost) => {
+    await api.updateData(id, data);
+    await refreshData();
+  };
+
   const refreshData = useCallback(async () => {
     await getData();
   }, [getData]);
@@ -70,7 +93,21 @@ export const DataProvider = ({ children }: ContextProps) => {
 
   return (
     <DataContext.Provider
-      value={{ data, getData, getDataById, postData, refreshData, deleteData }}
+      value={{
+        data,
+        getData,
+        getDataById,
+        postData,
+        updateData,
+        refreshData,
+        deleteData,
+        createActive,
+        setCreateActive,
+        editActive,
+        setEditActive,
+        updateId,
+        setUpdateId,
+      }}
     >
       {children}
     </DataContext.Provider>

@@ -22,7 +22,8 @@ export const Table = ({ usedata }: TableProps) => {
   const [pending, setPending] = useState(true);
   const [deletingRow, setDeletingRow] = useState<number | null>(null);
 
-  const { deleteData } = useDataContext();
+  const { deleteData, setEditActive, createActive, setUpdateId } =
+    useDataContext();
 
   useEffect(() => {
     setData(usedata);
@@ -30,7 +31,8 @@ export const Table = ({ usedata }: TableProps) => {
   }, [usedata]);
 
   const handleEdit = (id: number) => {
-    console.log("Edit item:", id);
+    setEditActive && !createActive && setEditActive(true);
+    setUpdateId && setUpdateId(id);
   };
 
   const handleDelete = async (id: number) => {
@@ -40,7 +42,6 @@ export const Table = ({ usedata }: TableProps) => {
       setDeletingRow(null);
     }, 500);
     deleteData(id);
-    console.log("Delete item:", id);
   };
 
   const renderCell = (content: React.ReactNode, rowId: number) => (

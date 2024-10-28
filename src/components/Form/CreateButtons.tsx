@@ -1,26 +1,21 @@
 import { useDataContext } from "@/hooks";
 
 interface CreateButtonsProps {
-  setActive: (active: boolean) => void;
   data: { marca: string; sucursal: string; aspirante: string };
   clearData: () => void;
 }
 
-export const CreateButtons = ({
-  setActive,
-  data,
-  clearData,
-}: CreateButtonsProps) => {
-  const { postData } = useDataContext();
+export const CreateButtons = ({ data, clearData }: CreateButtonsProps) => {
+  const { postData, setCreateActive } = useDataContext();
 
   const handleCreate = async () => {
     await postData(data);
-    setActive(false);
+    setCreateActive && setCreateActive(false);
     clearData();
   };
 
   const handleCancel = () => {
-    setActive(false);
+    setCreateActive && setCreateActive(false);
     clearData();
   };
 

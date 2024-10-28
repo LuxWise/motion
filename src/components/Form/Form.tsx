@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { InputIcon } from "./InputIcon";
 import { CreateButtons } from "./CreateButtons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconButton } from "./IconButton";
 import createIcon from "@/assets/Icon_crear.svg";
 import carIcon from "@/assets/Icon_vehiculo.svg";
@@ -10,6 +10,8 @@ import locationIcon from "@/assets/Icon_puntoubicacion.svg";
 import locationIconActive from "@/assets/Icon_puntoubicacion1.svg";
 import userIcon from "@/assets/Icon_persona.svg";
 import userIconActive from "@/assets/Icon_persona1.svg";
+import { useDataContext } from "@/hooks";
+import { ModifyButtons } from "./ModifyButtons";
 
 const containerVariants = {
   hidden: { x: "-100%", opacity: 0 },
@@ -20,7 +22,9 @@ export const Form = () => {
   const [marca, setMarca] = useState("");
   const [sucursal, setSucursal] = useState("");
   const [aspirante, setAspirante] = useState("");
-  const [isCreateActive, setCreateActive] = useState(false);
+
+  const { editActive, createActive, setCreateActive, getDataById, updateId } =
+    useDataContext();
 
   const clearFormData = () => {
     setMarca("");
@@ -28,12 +32,30 @@ export const Form = () => {
     setAspirante("");
   };
 
-  const handleCreateClick = () => setCreateActive(true);
+  useEffect(() => {
+    const loadEditData = async () => {
+      if (editActive && updateId !== null) {
+        const result = await getDataById(updateId);
+
+        if (result) {
+          setMarca(result.marca);
+          setSucursal(result.sucursal);
+          setAspirante(result.aspirante);
+        }
+      }
+    };
+
+    loadEditData();
+  }, [editActive, getDataById, updateId]);
+
+  const handleCreateClick = () => {
+    setCreateActive && !editActive && setCreateActive(true);
+  };
 
   return (
     <motion.div
       className={`grid grid-cols-1 w-3/4 ${
-        isCreateActive ? "h-80" : "h-64"
+        (createActive && !editActive) || editActive ? "h-80" : "h-64"
       } py-5 my-16 rounded-2xl shadow-shadowtable transition-all duration-500`}
       variants={containerVariants}
       initial="hidden"
@@ -47,27 +69,43 @@ export const Form = () => {
       />
 
       <InputIcon
-        icon={isCreateActive ? carIconActive : carIcon}
+        icon={
+          (createActive && !editActive) || editActive ? carIconActive : carIcon
+        }
         placeholder="Marca"
         input={setMarca}
         value={marca}
       />
       <InputIcon
-        icon={isCreateActive ? locationIconActive : locationIcon}
+        icon={
+          (createActive && !editActive) || editActive
+            ? locationIconActive
+            : locationIcon
+        }
         placeholder="Sucursal"
         input={setSucursal}
         value={sucursal}
       />
       <InputIcon
-        icon={isCreateActive ? userIconActive : userIcon}
+        icon={
+          (createActive && !editActive) || editActive
+            ? userIconActive
+            : userIcon
+        }
         placeholder="Aspirante"
         input={setAspirante}
         value={aspirante}
       />
 
-      {isCreateActive && (
+      {createActive && !editActive && (
         <CreateButtons
-          setActive={setCreateActive}
+          data={{ marca, sucursal, aspirante }}
+          clearData={clearFormData}
+        />
+      )}
+
+      {editActive && (
+        <ModifyButtons
           data={{ marca, sucursal, aspirante }}
           clearData={clearFormData}
         />

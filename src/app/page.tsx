@@ -49,7 +49,7 @@ const Home = () => {
             />
           </motion.div>
 
-          <p className="text-7xl font-bold text-[#00249C] z-20 select-none">
+          <p className="text-7xl font-bold text-[#00249C] z-20 select-none textStrokeWhite">
             MONITORING INNOVATION
           </p>
         </section>
