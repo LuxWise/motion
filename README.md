@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Proyecto de Práctica con Next.js
 
-## Getting Started
+Este proyecto es una aplicación práctica construida con [Next.js](https://nextjs.org), desarrollada como parte de mis estudios en ingeniería para explorar el desarrollo web con frameworks modernos. El proyecto se inicializó con [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) y sirve como base para entender la renderización del lado del servidor, la integración de APIs y el diseño basado en componentes en Next.js.
 
-First, run the development server:
+## Comenzando
+
+Para empezar a trabajar en el proyecto, clona el repositorio e instala las dependencias, luego ejecuta el servidor de desarrollo:
 
 ```bash
+npm install
 npm run dev
-# or
+# o
 yarn dev
-# or
+# o
 pnpm dev
-# or
+# o
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Una vez que el servidor esté en funcionamiento, abre http://localhost:3000 en tu navegador para ver el proyecto. Puedes comenzar a editar el contenido modificando app/page.tsx, el cual actualizará automáticamente la página con los cambios.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Este proyecto también integra next/font para optimizar y cargar fuentes personalizadas, como Geist de Vercel, lo que brinda a la aplicación un estilo único mientras mejora su rendimiento.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Librerías y Herramientas Utilizadas
 
-To learn more about Next.js, take a look at the following resources:
+Este proyecto utiliza varias librerías clave para añadir funcionalidades específicas y mejorar la experiencia de desarrollo general:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Axios**: Utilizado para realizar solicitudes HTTP, facilitando la conexión entre el frontend y una API para obtener o enviar datos.
+- **Framer Motion**: Una biblioteca popular para añadir animaciones. Este proyecto lo usa para hacer que la interfaz sea más interactiva y dinámica con animaciones fluidas.
+- **React Data Table Component**: Una solución de tabla de datos poderosa para mostrar información de forma estructurada, con soporte para características como ordenamiento y paginación.
+- **React Icons**: Una biblioteca con una amplia gama de íconos, que usamos para mejorar visualmente botones y enlaces.
+- **React Loader Spinner**: Proporciona spinners de carga personalizables, ayudando a mejorar la experiencia del usuario al indicar estados de carga.
+- **Styled Components**: Una biblioteca CSS-in-JS que nos permite escribir CSS modular y de alcance limitado, manteniendo los estilos cerca de los componentes que afectan.
+- **Tailwind CSS**: Un framework CSS basado en utilidades que simplifica el diseño con clases predefinidas, permitiendo un sistema de diseño consistente y altamente adaptable.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Despliegue en Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Desplegar este proyecto es sencillo con la plataforma Vercel. Vercel, creada por los desarrolladores de Next.js, ofrece despliegue optimizado para aplicaciones Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
