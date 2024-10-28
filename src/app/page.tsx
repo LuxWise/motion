@@ -59,14 +59,14 @@ const Home = () => {
             <h2>MONITORING INNOVATION</h2>
             <h2>GPS CONTROL</h2>
             <a
-              href="https://link-to-repo-front"
+              href="https://github.com/LuxWise/motion"
               target="_blank"
               rel="noopener noreferrer"
             >
               Frontend Repo
             </a>
             <a
-              href="https://link-to-repo-back"
+              href="https://github.com/LuxWise/apiMotion.git"
               target="_blank"
               rel="noopener noreferrer"
             >
