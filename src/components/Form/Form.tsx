@@ -49,7 +49,9 @@ export const Form = () => {
   }, [editActive, getDataById, updateId]);
 
   const handleCreateClick = () => {
-    setCreateActive && !editActive && setCreateActive(true);
+    if (setCreateActive) {
+      !editActive && setCreateActive(true);
+    }
   };
 
   return (

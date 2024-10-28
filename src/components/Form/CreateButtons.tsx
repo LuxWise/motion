@@ -10,12 +10,16 @@ export const CreateButtons = ({ data, clearData }: CreateButtonsProps) => {
 
   const handleCreate = async () => {
     await postData(data);
-    setCreateActive && setCreateActive(false);
+    if (setCreateActive) {
+      setCreateActive(false);
+    }
     clearData();
   };
 
   const handleCancel = () => {
-    setCreateActive && setCreateActive(false);
+    if (setCreateActive) {
+      setCreateActive(false);
+    }
     clearData();
   };
 

@@ -31,8 +31,12 @@ export const Table = ({ usedata }: TableProps) => {
   }, [usedata]);
 
   const handleEdit = (id: number) => {
-    setEditActive && !createActive && setEditActive(true);
-    setUpdateId && setUpdateId(id);
+    if (setEditActive && !createActive) {
+      setEditActive(true);
+    }
+    if (setUpdateId) {
+      setUpdateId(id);
+    }
   };
 
   const handleDelete = async (id: number) => {
