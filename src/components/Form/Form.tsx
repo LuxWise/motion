@@ -50,7 +50,9 @@ export const Form = () => {
 
   const handleCreateClick = () => {
     if (setCreateActive) {
-      !editActive && setCreateActive(true);
+      if (editActive === false) {
+        setCreateActive(true);
+      }
     }
   };
 
