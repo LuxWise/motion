@@ -12,6 +12,7 @@ import userIcon from "@/assets/Icon_persona.svg";
 import userIconActive from "@/assets/Icon_persona1.svg";
 import { useDataContext } from "@/hooks";
 import { ModifyButtons } from "./ModifyButtons";
+import { s } from "framer-motion/client";
 
 const containerVariants = {
   hidden: { x: "-100%", opacity: 0 },
@@ -22,6 +23,7 @@ export const Form = () => {
   const [marca, setMarca] = useState("");
   const [sucursal, setSucursal] = useState("");
   const [aspirante, setAspirante] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { editActive, createActive, setCreateActive, getDataById, updateId } =
     useDataContext();
@@ -35,6 +37,7 @@ export const Form = () => {
   useEffect(() => {
     const loadEditData = async () => {
       if (editActive && updateId !== null) {
+        setLoading(true);
         const result = await getDataById(updateId);
 
         if (result) {
@@ -42,6 +45,7 @@ export const Form = () => {
           setSucursal(result.sucursal);
           setAspirante(result.aspirante);
         }
+        setLoading(false);
       }
     };
 
@@ -79,7 +83,7 @@ export const Form = () => {
         }
         placeholder="Marca"
         input={setMarca}
-        value={marca}
+        value={loading ? "Cargando..." : marca}
       />
       <InputIcon
         icon={
@@ -89,7 +93,7 @@ export const Form = () => {
         }
         placeholder="Sucursal"
         input={setSucursal}
-        value={sucursal}
+        value={loading ? "Cargando..." : sucursal}
       />
       <InputIcon
         icon={
@@ -99,7 +103,7 @@ export const Form = () => {
         }
         placeholder="Aspirante"
         input={setAspirante}
-        value={aspirante}
+        value={loading ? "Cargando..." : aspirante}
       />
 
       {createActive && !editActive && (

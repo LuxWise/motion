@@ -30,6 +30,8 @@ interface DataContextType {
   setEditActive?: (active: boolean) => void;
   updateId: number | null;
   setUpdateId?: (id: number) => void;
+  editingRow: number | null;
+  setEditingRow: (id: number | null) => void;
 }
 
 interface ContextProps {
@@ -50,6 +52,8 @@ const DefaultContext: DataContextType = {
   setEditActive: () => {},
   updateId: null,
   setUpdateId: () => {},
+  editingRow: null,
+  setEditingRow: () => {},
 };
 
 export const DataContext = createContext<DataContextType>(DefaultContext);
@@ -59,6 +63,7 @@ export const DataProvider = ({ children }: ContextProps) => {
   const [editActive, setEditActive] = useState(false);
   const [createActive, setCreateActive] = useState(false);
   const [updateId, setUpdateId] = useState<number | null>(null);
+  const [editingRow, setEditingRow] = useState<number | null>(null);
 
   const api = new Data();
 
@@ -107,6 +112,8 @@ export const DataProvider = ({ children }: ContextProps) => {
         setEditActive,
         updateId,
         setUpdateId,
+        editingRow,
+        setEditingRow,
       }}
     >
       {children}

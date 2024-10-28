@@ -1,4 +1,6 @@
 import { useDataContext } from "@/hooks";
+import { useState } from "react";
+import { TailSpin } from "react-loader-spinner";
 import cancel from "@/assets/Icon_cancelar.svg";
 import confirm from "@/assets/Icon_confirmar.svg";
 import Image from "next/image";
@@ -9,9 +11,13 @@ interface ModifyButtonsProps {
 }
 
 export const ModifyButtons = ({ data, clearData }: ModifyButtonsProps) => {
-  const { setEditActive, updateData, updateId } = useDataContext();
+  const { setEditActive, updateData, updateId, setEditingRow } =
+    useDataContext();
+  const [loading, setLoading] = useState(false);
 
   const handleCancel = () => {
+    setEditingRow(null);
+
     if (setEditActive) {
       setEditActive(false);
       clearData();
@@ -19,11 +25,16 @@ export const ModifyButtons = ({ data, clearData }: ModifyButtonsProps) => {
   };
 
   const handleEdit = async () => {
+    if (loading) return;
+
     if (updateId !== null) {
+      setLoading(true);
       await updateData(updateId, data);
       if (setEditActive) {
         setEditActive(false);
         clearData();
+        setLoading(false);
+        setEditingRow(null);
       }
     }
   };
@@ -38,12 +49,18 @@ export const ModifyButtons = ({ data, clearData }: ModifyButtonsProps) => {
           className="cursor-pointer w-10 h-10"
           onClick={handleCancel}
         />
-        <Image
-          src={confirm}
-          alt=""
-          className="cursor-pointer w-10 h-10"
-          onClick={handleEdit}
-        />
+        {loading ? (
+          <div className="flex items-center border-[#01BEDB]">
+            <TailSpin color="#01BEDB" height={30} width={30} />
+          </div>
+        ) : (
+          <Image
+            src={confirm}
+            alt=""
+            className="cursor-pointer w-10 h-10"
+            onClick={handleEdit}
+          />
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,6 @@
 import { useDataContext } from "@/hooks";
+import { useState } from "react";
+import { TailSpin } from "react-loader-spinner";
 
 interface CreateButtonsProps {
   data: { marca: string; sucursal: string; aspirante: string };
@@ -7,9 +9,19 @@ interface CreateButtonsProps {
 
 export const CreateButtons = ({ data, clearData }: CreateButtonsProps) => {
   const { postData, setCreateActive } = useDataContext();
+  const [loading, setLoading] = useState(false);
 
   const handleCreate = async () => {
+    if (loading) return;
+
+    if (!data.marca || !data.sucursal || !data.aspirante) {
+      alert("Por favor, completar todos los campos antes de crear.");
+      return;
+    }
+
+    setLoading(true);
     await postData(data);
+    setLoading(false);
     if (setCreateActive) {
       setCreateActive(false);
     }
@@ -37,7 +49,11 @@ export const CreateButtons = ({ data, clearData }: CreateButtonsProps) => {
           className="createButton border-[#01BEDB] hover:bg-[#01BEDB]"
           onClick={handleCreate}
         >
-          <p className="text-lg">Crear</p>
+          {loading ? (
+            <TailSpin color="#01BEDB" height={20} width={20} />
+          ) : (
+            <p className="text-lg">Crear</p>
+          )}
         </div>
       </div>
     </div>

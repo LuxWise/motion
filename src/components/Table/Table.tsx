@@ -2,7 +2,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import editIcon from "@/assets/Icon_editar1.svg";
+import editIconInactive from "@/assets/Icon_editar.svg";
 import deleteIcon from "@/assets/Icon_eliminar1.svg";
+import deleteIconInactive from "@/assets/Icon_eliminar.svg";
 import "./table.css";
 import { useDataContext } from "@/hooks";
 
@@ -22,8 +24,14 @@ export const Table = ({ usedata }: TableProps) => {
   const [pending, setPending] = useState(true);
   const [deletingRow, setDeletingRow] = useState<number | null>(null);
 
-  const { deleteData, setEditActive, createActive, setUpdateId } =
-    useDataContext();
+  const {
+    deleteData,
+    setEditActive,
+    createActive,
+    setUpdateId,
+    editingRow,
+    setEditingRow,
+  } = useDataContext();
 
   useEffect(() => {
     setData(usedata);
@@ -31,11 +39,14 @@ export const Table = ({ usedata }: TableProps) => {
   }, [usedata]);
 
   const handleEdit = (id: number) => {
-    if (setEditActive && !createActive) {
-      setEditActive(true);
-    }
-    if (setUpdateId) {
-      setUpdateId(id);
+    if (editingRow === null) {
+      setEditingRow(id);
+      if (setEditActive && !createActive) {
+        setEditActive(true);
+      }
+      if (setUpdateId) {
+        setUpdateId(id);
+      }
     }
   };
 
@@ -44,8 +55,9 @@ export const Table = ({ usedata }: TableProps) => {
     setTimeout(() => {
       setData(prevData => prevData.filter(row => row.id !== id));
       setDeletingRow(null);
-    }, 500);
+    }, 200);
     deleteData(id);
+    setEditingRow(null);
   };
 
   const renderCell = (content: React.ReactNode, rowId: number) => (
@@ -81,18 +93,35 @@ export const Table = ({ usedata }: TableProps) => {
         >
           <p>{row.aspirante}</p>
           <div className="flex gap-3">
-            <Image
-              src={editIcon}
-              alt="Edit"
-              onClick={() => handleEdit(row.id)}
-              className="cursor-pointer w-5 h-5"
-            />
-            <Image
-              src={deleteIcon}
-              alt="Delete"
-              onClick={() => handleDelete(row.id)}
-              className="cursor-pointer w-5 h-5"
-            />
+            {editingRow !== null && editingRow !== row.id ? (
+              <Image
+                src={editIconInactive}
+                alt=""
+                className="cursor-not-allowed w-5 h-5"
+              />
+            ) : (
+              <Image
+                src={editIcon}
+                alt="Edit"
+                onClick={() => handleEdit(row.id)}
+                className="cursor-pointer w-5 h-5"
+              />
+            )}
+
+            {editingRow !== null ? (
+              <Image
+                src={deleteIconInactive}
+                alt=""
+                className="cursor-not-allowed w-5 h-5"
+              />
+            ) : (
+              <Image
+                src={deleteIcon}
+                alt="Delete"
+                onClick={() => handleDelete(row.id)}
+                className="cursor-pointer w-5 h-5"
+              />
+            )}
           </div>
         </div>
       ),
