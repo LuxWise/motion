@@ -54,11 +54,12 @@ export const Form = () => {
     }
   };
 
+  const formHeightClass =
+    (createActive && !editActive) || editActive ? "h-80" : "h-64";
+
   return (
     <motion.div
-      className={`grid grid-cols-1 w-3/4 ${
-        (createActive && !editActive) || editActive ? "h-80" : "h-64"
-      } py-5 my-16 rounded-2xl shadow-shadowtable transition-all duration-500`}
+      className={`grid grid-cols-1 w-3/4 ${formHeightClass}  py-5 my-16 rounded-2xl shadow-shadowtable transition-all duration-500`}
       variants={containerVariants}
       initial="hidden"
       animate="visible"
